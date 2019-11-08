@@ -65,6 +65,7 @@ set(SOURCES
 
     viewer/Camera.cpp
     viewer/GraphicsStage.cpp
+    viewer/OffscreenGraphicsStage.cpp
     viewer/View.cpp
     viewer/Viewer.cpp
     viewer/Window.cpp
