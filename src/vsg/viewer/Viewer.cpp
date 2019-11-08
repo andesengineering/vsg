@@ -231,9 +231,9 @@ bool Viewer::submitNextFrame(std::vector<VkSemaphore> externalWaits, std::vector
         std::vector<VkSemaphore> waitSemaphores;
         waitSemaphores.insert(waitSemaphores.end(), externalWaits.begin(), externalWaits.end());
 
-        std::vector<VkPipelineStageFlags> waitStages;
-        waitStages.insert(waitStages.end(), externalWaitStages.begin(), externalWaitStages.end());
-        waitStages.insert(waitStages.end(), pdo.waitStages.begin(), pdo.waitStages.end());
+        std::vector<VkPipelineStageFlags> waitDstStageMasks;
+        waitDstStageMasks.insert(waitDstStageMasks.end(), externalWaitStages.begin(), externalWaitStages.end());
+        //waitDstStageMasks.insert(waitDstStageMasks.end(), pdo.waitStages.begin(), pdo.waitStages.end());
 
         std::vector<VkSemaphore> signalSemaphores;
         signalSemaphores.insert(signalSemaphores.end(), externalSignals.begin(), externalSignals.end());
@@ -242,7 +242,7 @@ bool Viewer::submitNextFrame(std::vector<VkSemaphore> externalWaits, std::vector
         for (auto& window : pdo.windows)
         {
             waitSemaphores.push_back(*(window->frame(window->nextImageIndex()).imageAvailableSemaphore));
-            waitStages.push_back(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+            waitDstStageMasks.push_back(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 
             fence = window->frame(window->nextImageIndex()).commandsCompletedFence;
             window->frame(window->nextImageIndex()).checkCommandsCompletedFence = true;
@@ -267,7 +267,7 @@ bool Viewer::submitNextFrame(std::vector<VkSemaphore> externalWaits, std::vector
                         }
 
                         waitSemaphores.emplace_back(*semaphore);
-                        waitStages.emplace_back(semaphore->pipelineStageFlags());
+                        waitDstStageMasks.emplace_back(semaphore->pipelineStageFlags());
 
                         semaphore->numDependentSubmissions().fetch_add(1);
                         fence->dependentSemaphores().emplace_back(semaphore);
@@ -293,7 +293,7 @@ bool Viewer::submitNextFrame(std::vector<VkSemaphore> externalWaits, std::vector
 
         submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
         submitInfo.pWaitSemaphores = waitSemaphores.data();
-        submitInfo.pWaitDstStageMask = waitStages.data();
+        submitInfo.pWaitDstStageMask = waitDstStageMasks.data();
 
         submitInfo.commandBufferCount = static_cast<uint32_t>(pdo.commandBuffers.size());
         submitInfo.pCommandBuffers = pdo.commandBuffers.data();
