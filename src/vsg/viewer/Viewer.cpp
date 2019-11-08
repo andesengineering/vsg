@@ -230,7 +230,6 @@ bool Viewer::submitNextFrame(std::vector<VkSemaphore> externalWaits, std::vector
 
         std::vector<VkPipelineStageFlags> waitDstStageMasks;
         waitDstStageMasks.insert(waitDstStageMasks.end(), externalWaitStages.begin(), externalWaitStages.end());
-        //waitDstStageMasks.insert(waitDstStageMasks.end(), pdo.waitStages.begin(), pdo.waitStages.end());
 
         std::vector<VkSemaphore> signalSemaphores;
         signalSemaphores.insert(signalSemaphores.end(), externalSignals.begin(), externalSignals.end());
