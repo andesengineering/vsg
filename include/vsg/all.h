@@ -83,8 +83,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vsg/viewer/Camera.h>
 #include <vsg/viewer/CloseHandler.h>
 #include <vsg/viewer/GraphicsStage.h>
+#include <vsg/viewer/OffscreenGraphicsStage.h>
+#include <vsg/viewer/ProjectionMatrix.h>
 #include <vsg/viewer/Trackball.h>
 #include <vsg/viewer/View.h>
+#include <vsg/viewer/ViewMatrix.h>
 #include <vsg/viewer/Viewer.h>
 #include <vsg/viewer/Window.h>
 
@@ -123,7 +126,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vsg/vk/PhysicalDevice.h>
 #include <vsg/vk/PipelineLayout.h>
 #include <vsg/vk/PushConstants.h>
+#include <vsg/vk/Queue.h>
 #include <vsg/vk/RenderPass.h>
+#include <vsg/vk/ResourceHints.h>
 #include <vsg/vk/Sampler.h>
 #include <vsg/vk/Semaphore.h>
 #include <vsg/vk/ShaderModule.h>
@@ -138,6 +143,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vsg/io/AsciiOutput.h>
 #include <vsg/io/BinaryInput.h>
 #include <vsg/io/BinaryOutput.h>
+#include <vsg/io/DatabasePager.h>
 #include <vsg/io/FileSystem.h>
 #include <vsg/io/Input.h>
 #include <vsg/io/ObjectCache.h>
