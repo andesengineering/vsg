@@ -32,6 +32,7 @@ namespace vsg
 
         virtual void record(CommandBuffers& recordedCommandBuffers, ref_ptr<FrameStamp> frameStamp = {}, ref_ptr<DatabasePager> databasePager = {});
 
+        void waitProduction() { _slaveCommandBufferMutex.lock(); }
         ref_ptr<RecordTraversal> recordTraversal;
 
         Windows windows;
@@ -41,13 +42,17 @@ namespace vsg
         int _presentFamily = -1;
         uint32_t _maxSlot = 2;
 
-        VkCommandBufferLevel _commandbufferslevel;
-        uint32_t _subpassindex;
-
-        ref_ptr<CommandGraph> _primary; // setup in Viewer::assignRecordAndSubmitTaskAndPresentation
+        VkCommandBufferLevel _commandBuffersLevel;
+        uint32_t _subpassIndex;
 
         mutable CommandBuffers commandBuffers; // assign one per index? Or just use round robin, each has a CommandPool
-        ref_ptr<CommandBuffer> lastrecorded; // dirty need some sync between CommandGraph
+        ref_ptr<CommandBuffer> lastRecorded;
+        std::mutex _slaveCommandBufferMutex; //wait by ExecuteCommands to ensure prod sync
+
+        // setup in Viewer::assignRecordAndSubmitTaskAndPresentation
+        ref_ptr<CommandGraph> _masterCommandGraph; // commandgraph embedding this one
+        std::shared_ptr<std::mutex> _masterCommandBufferMutex = nullptr; //wait to ensure consumption by primary command buffer
+
     };
 
     /// convience function that sets up RenderGraph inside CommandGraph to render the specified scene graph from the speified Camera view
