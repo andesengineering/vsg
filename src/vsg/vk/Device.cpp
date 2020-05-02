@@ -144,6 +144,7 @@ Device::Result Device::create(PhysicalDevice* physicalDevice, QueueSettings& que
     }
 }
 
+#if 0
 Device::Result Device::create(WindowTraits* windowTraits)
 {
     vsg::Names instanceExtensions = vsg::Window::getInstanceExtensions();
@@ -175,6 +176,7 @@ Device::Result Device::create(WindowTraits* windowTraits)
     vsg::QueueSettings queueSettings{vsg::QueueSetting{queueFamily, {1.0}}};
     return vsg::Device::create(physicalDevice, queueSettings, validatedNames, deviceExtensions, windowTraits->allocator);
 }
+#endif
 
 ref_ptr<Queue> Device::getQueue(uint32_t queueFamilyIndex, uint32_t queueIndex)
 {

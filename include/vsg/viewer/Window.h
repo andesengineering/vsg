@@ -39,8 +39,6 @@ namespace vsg
         static Result create(uint32_t width, uint32_t height, bool debugLayer = false, bool apiDumpLayer = false, vsg::Window* shareWindow = nullptr, vsg::AllocationCallbacks* allocator = nullptr);
         static Result create(vsg::ref_ptr<WindowTraits> traits, bool debugLayer, bool apiDumpLayer = false, vsg::AllocationCallbacks* allocator = nullptr);
 
-        static vsg::Names getInstanceExtensions();
-
         virtual bool valid() const { return false; }
 
         virtual bool pollEvents(Events& /*events*/) { return false; }
@@ -106,7 +104,7 @@ namespace vsg
         Frames& frames() { return _frames; }
 
     protected:
-        Window(ref_ptr<WindowTraits> traits, AllocationCallbacks* allocator);
+        Window(ref_ptr<WindowTraits> traits, const vsg::Names &, AllocationCallbacks* allocator);
 
         virtual ~Window();
 

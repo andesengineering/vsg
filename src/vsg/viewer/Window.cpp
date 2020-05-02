@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using namespace vsg;
 
-Window::Window(ref_ptr<WindowTraits> traits, vsg::AllocationCallbacks* allocator) :
+Window::Window(ref_ptr<WindowTraits> traits, const vsg::Names &windowExtensions, vsg::AllocationCallbacks* allocator) :
     _traits(traits),
     _clearColor{{0.2f, 0.2f, 0.4f, 1.0f}},
     _nextImageIndex(0)
@@ -32,7 +32,7 @@ Window::Window(ref_ptr<WindowTraits> traits, vsg::AllocationCallbacks* allocator
     else
     {
         // create the vkInstance
-        vsg::Names instanceExtensions = getInstanceExtensions();
+        vsg::Names instanceExtensions = windowExtensions;
 
         instanceExtensions.insert(instanceExtensions.end(), traits->instanceExtensionNames.begin(), traits->instanceExtensionNames.end());
 

@@ -71,6 +71,8 @@ namespace vsgXcb
 
         ~Xcb_Window();
 
+        static vsg::Names getRequiredExtensions();
+
         xcb_connection_t* _connection = nullptr;
         xcb_screen_t* _screen = nullptr;
         xcb_window_t _window{};
